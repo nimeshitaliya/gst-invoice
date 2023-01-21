@@ -34,17 +34,17 @@ function onload_fun() {
     var bank_branch_name = document.getElementById("bank_branch_name");
     var bank_ac_number = document.getElementById("bank_ac_number");
     var ifsc_code = document.getElementById("ifsc_code");
-    company_name.value = "<?php echo $row['company_name']; ?>";
-    address.value = "<?php echo $row['address']; ?>";
-    owner_name.value = "<?php echo $row['owner_name']; ?>";
-    phone_no.value = "<?php echo $row['phone_no']; ?>";
-    gstin_no.value = "<?php echo $row['gstin_no']; ?>";
-    pan_no.value = "<?php echo $row['pan_no']; ?>";
-    email.value = "<?php echo $row['email']; ?>";
-    bank_name.value = "<?php echo $row['bank_name']; ?>";
-    bank_branch_name.value = "<?php echo $row['bank_branch_name']; ?>";
-    bank_ac_number.value = "<?php echo $row['bank_ac_number']; ?>";
-    ifsc_code.value = "<?php echo $row['ifsc_code']; ?>";
+    company_name.value = `<?php echo $row['company_name']; ?>`;
+    address.value = `<?php echo $row['address']; ?>`;
+    owner_name.value = `<?php echo $row['owner_name']; ?>`;
+    phone_no.value = `<?php echo $row['phone_no']; ?>`;
+    gstin_no.value = `<?php echo $row['gstin_no']; ?>`;
+    pan_no.value = `<?php echo $row['pan_no']; ?>`;
+    email.value = `<?php echo $row['email']; ?>`;
+    bank_name.value = `<?php echo $row['bank_name']; ?>`;
+    bank_branch_name.value = `<?php echo $row['bank_branch_name']; ?>`;
+    bank_ac_number.value = `<?php echo $row['bank_ac_number']; ?>`;
+    ifsc_code.value = `<?php echo $row['ifsc_code']; ?>`;
 }
 </script>
 
@@ -131,22 +131,6 @@ function onload_fun() {
     		                ?>
                             </span>
                         </a>
-                    </div>
-                    <div class="mdc-menu-anchor mr-1">
-                        <a href="#" class="mdc-toolbar__icon toggle mdc-ripple-surface" style="text-decoration: none;"
-                            data-toggle="dropdown" toggle-dropdown="logout-menu" data-mdc-auto-init="MDCRipple">
-                            <i class="material-icons">more_vert</i>
-                        </a>
-                        <div class="mdc-simple-menu mdc-simple-menu--right" tabindex="-1" id="logout-menu">
-                            <ul class="mdc-simple-menu__items mdc-list" role="menu" aria-hidden="true">
-                                <a href="../../logout.php" style="text-decoration:none; color:black;">
-                                    <li class="mdc-list-item" role="menuitem" tabindex="0">
-                                        <i class="material-icons mdc-theme--primary mr-1">power_settings_new</i>
-                                        Logout
-                                    </li>
-                                </a>
-                            </ul>
-                        </div>
                     </div>
                 </section>
             </div>

@@ -35,45 +35,36 @@
         }
     }
     elseif (isset($_GET['log2'])) {
-        $user_name = $_REQUEST['Message'];
         $customer_name = $_POST['customer_name'];
-        $addr = $_POST['addr'];
+        $address = $_POST['address'];
         $phone_no = $_POST['phone_no'];
         $gstin_no = $_POST['gstin_no'];
         $pan_no = $_POST['pan_no'];
-        $sql = "SELECT MAX(cust_id)+1 cust_id FROM customers WHERE username = '$user_name';";
-        $result = mysqli_query($conn, $sql);
-        if (mysqli_num_rows($result) > 0){
-            $row = mysqli_fetch_assoc($result);
-            $sql = "INSERT INTO customers VALUES({$row['cust_id']},
-                '$customer_name', '$addr', '$gstin_no', '$pan_no', '$phone_no', '$user_name');";
-            if ($res = mysqli_query($conn, $sql))
-                header("Location:pages/forms/customer-forms.php");
-            else
-                die(mysqli_error($conn));
-        }
+        $place_of_supply = $_POST['place_of_supply'];
+        $sql = "INSERT INTO customers (name, address, phone_no, gstin_no, pan_no, place_of_supply) VALUES('$customer_name', '$address', '$phone_no', '$gstin_no', '$pan_no', '$place_of_supply');";
+        if ($res = mysqli_query($conn, $sql))
+            header("Location:pages/forms/customer-forms.php");
         else
-           die(mysqli_error($conn));
+            die(mysqli_error($conn));
     }
     elseif (isset($_GET['log3'])) {
-        $user_name = $_REQUEST['Message'];
         $cust_id = $_REQUEST['cust_id'];
         $customer_name = $_POST['customer_name'];
-        $addr = $_POST['addr'];
+        $address = $_POST['address'];
         $phone_no = $_POST['phone_no'];
         $gstin_no = $_POST['gstin_no'];
         $pan_no = $_POST['pan_no'];
-        $sql = "UPDATE customers SET customer_name = '$customer_name', addr = '$addr', gstin_no = '$gstin_no', pan_no = '$pan_no', phone_no = '$phone_no'
-            where cust_id = $cust_id AND username = '$user_name';";
+        $place_of_supply = $_POST['place_of_supply'];
+        $sql = "UPDATE customers SET name = '$customer_name', address = '$address', gstin_no = '$gstin_no', pan_no = '$pan_no', phone_no = '$phone_no', place_of_supply = '$place_of_supply'
+            where cust_id = $cust_id;";
         if ($res = mysqli_query($conn, $sql))
             header("Location:pages/forms/customer-forms.php");
         else
             die(mysqli_error($conn));
     }
     elseif (isset($_GET['log4'])) {
-        $user_name = $_REQUEST['Message'];
         $cust_id = $_REQUEST['cust_id'];
-        $sql = "DELETE FROM customers WHERE cust_id = $cust_id AND username = '$user_name';";
+        $sql = "DELETE FROM customers WHERE cust_id = $cust_id;";
         if ($res = mysqli_query($conn, $sql))
             header("Location:pages/forms/customer-forms.php");
         else

@@ -34,19 +34,22 @@ CREATE TABLE IF NOT EXISTS `bill_list` (
   `date` date DEFAULT NULL,
   `time` time DEFAULT NULL,
   PRIMARY KEY (`bill_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=55 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 DROP TABLE IF EXISTS `customers`;
 CREATE TABLE IF NOT EXISTS `customers` (
-  `cust_id` varchar(10) NOT NULL,
-  `customer_name` varchar(50) DEFAULT NULL,
-  `addr` varchar(100) DEFAULT NULL,
-  `gstin_no` varchar(15) DEFAULT NULL,
-  `pan_no` varchar(10) DEFAULT NULL,
-  `phone_no` varchar(10) DEFAULT NULL,
-  `username` varchar(30) NOT NULL,
-  PRIMARY KEY (`cust_id`,`username`)
+  `cust_id` int(10) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) DEFAULT NULL,
+  `address` varchar(100) DEFAULT NULL,
+  `phone_no` varchar(20) DEFAULT NULL,
+  `gstin_no` varchar(20) DEFAULT NULL,
+  `pan_no` varchar(20) DEFAULT NULL,
+  `place_of_supply` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`cust_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+INSERT INTO `customers` (`name`, `address`, `phone_no`, `gstin_no`, `pan_no`, `place_of_supply`) VALUES
+('M R Lace', '1st Floor Plot No. 107/a-b, Jay Narayan Industrial Soc, Anjana Farm, Surat, Gujarat - 394210', '', '24GAPPM6375H1Z4', 'GAPPM6375H', 'Gujarat ( 24 )');
 
 DROP TABLE IF EXISTS `keys_`;
 CREATE TABLE IF NOT EXISTS `keys_` (
@@ -82,12 +85,12 @@ CREATE TABLE IF NOT EXISTS `users` (
 DROP TABLE IF EXISTS `user_detail`;
 CREATE TABLE IF NOT EXISTS `user_detail` (
   `username` varchar(30) NOT NULL,
-  `company_name` varchar(30) NOT NULL,
-  `owner_name` varchar(30) NOT NULL,
+  `company_name` varchar(50) NOT NULL,
+  `owner_name` varchar(50) NOT NULL,
   `address` varchar(100) NOT NULL,
-  `phone_no` varchar(10) NOT NULL,
-  `gstin_no` varchar(15) DEFAULT NULL,
-  `pan_no` varchar(10) DEFAULT NULL,
+  `phone_no` varchar(20) NOT NULL,
+  `gstin_no` varchar(20) DEFAULT NULL,
+  `pan_no` varchar(20) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
   `bank_name` varchar(50) DEFAULT NULL,
   `bank_branch_name` varchar(50) DEFAULT NULL,
