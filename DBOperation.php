@@ -3,9 +3,9 @@
     if(isset($_GET['log1'])){
         $user_name = $_REQUEST['Message'];
         $company_name = $_POST['company_name'];
-        $addr = $_POST['addr'];
-        $phone_no_1 = $_POST['phone_no_1'];
-        $phone_no_2 = $_POST['phone_no_2'];
+        $owner_name = $_POST['owner_name'];
+        $address = $_POST['address'];
+        $phone_no = $_POST['phone_no'];
         $gstin_no = $_POST['gstin_no'];
         $pan_no = $_POST['pan_no'];
         $email = $_POST['email'];
@@ -15,21 +15,21 @@
         $ifsc_code = $_POST['ifsc_code'];
         $sql = "SELECT * FROM user_detail where username = '$user_name';";
         $result = mysqli_query($conn, $sql);
-        if (mysqli_num_rows($result) <= 0){
-            $sql = "INSERT INTO user_detail VALUES('$user_name','$company_name','$addr',
-                '$phone_no_1','$phone_no_2','$gstin_no','$pan_no','$email','$bank_name',
-                '$bank_branch_name','$bank_ac_number','$ifsc_code');";
+        if (mysqli_num_rows($result) > 0){
+            $sql = "UPDATE user_detail SET 
+                company_name = '$company_name',
+                owner_name = '$owner_name',
+                address = '$address',
+                phone_no = '$phone_no',
+                gstin_no = '$gstin_no',
+                pan_no = '$pan_no',
+                email = '$email',
+                bank_name = '$bank_name',
+                bank_branch_name = '$bank_branch_name',
+                bank_ac_number = '$bank_ac_number',
+                ifsc_code = '$ifsc_code' WHERE user_detail.username = '$user_name';";
             if ($res = mysqli_query($conn, $sql))
-                header("Location:dashboard.php");
-            else
-                die(mysqli_error($conn));
-        }else {
-            $sql = "UPDATE user_detail SET company_name = '$company_name', addr='$addr',
-                phone_no_1 = '$phone_no_1', phone_no_2 = '$phone_no_2' , gstin_no = '$gstin_no',
-                pan_no = '$pan_no', email = '$email', bank_name = '$bank_name' , bank_branch_name = '$bank_branch_name',
-                bank_ac_number = '$bank_ac_number', ifsc_code = '$ifsc_code' WHERE user_detail.username = '$user_name';";
-            if ($res = mysqli_query($conn, $sql))
-                header("Location:dashboard.php");
+                header("Location:index.php");
             else
                 die(mysqli_error($conn));
         }
