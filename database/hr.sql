@@ -22,7 +22,6 @@ CREATE TABLE IF NOT EXISTS `bill_data` (
 DROP TABLE IF EXISTS `bill_list`;
 CREATE TABLE IF NOT EXISTS `bill_list` (
   `bill_id` int(10) NOT NULL AUTO_INCREMENT,
-  `username` varchar(30) DEFAULT NULL,
   `invoice_no` varchar(10) NOT NULL,
   `sub_total` varchar(10) NOT NULL,
   `grand_total` varchar(10) NOT NULL,

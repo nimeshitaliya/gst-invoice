@@ -50,38 +50,47 @@ $jsonTable = json_encode($table);
 ?>
 
 <html>
- <head>
-  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-  <script type="text/javascript">
-   google.charts.load('current', {'packages':['corechart']});
-   google.charts.setOnLoadCallback(drawChart);
-   function drawChart()
-   {
-    var data = new google.visualization.DataTable(<?php echo $jsonTable; ?>);
 
-    var options = {
-     title:'Sensors Data',
-     legend:{position:'bottom'},
-     chartArea:{width:'95%', height:'65%'}
-    };
+<head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript">
+    google.charts.load('current', {
+        'packages': ['corechart']
+    });
+    google.charts.setOnLoadCallback(drawChart);
 
-    var chart = new google.visualization.LineChart(document.getElementById('line_chart'));
+    function drawChart() {
+        var data = new google.visualization.DataTable(<?php echo $jsonTable; ?>);
 
-    chart.draw(data, options);
-   }
-  </script>
-  <style>
-  .page-wrapper
-  {
-   width:1000px;
-   margin:0 auto;
-  }
-  </style>
- </head>
- <body>
-  <div class="page-wrapper">
-   <div id="line_chart" style="width: 100%; height: 500px"></div>
-  </div>
- </body>
+        var options = {
+            title: 'Sensors Data',
+            legend: {
+                position: 'bottom'
+            },
+            chartArea: {
+                width: '95%',
+                height: '65%'
+            }
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('line_chart'));
+
+        chart.draw(data, options);
+    }
+    </script>
+    <style>
+    .page-wrapper {
+        width: 1000px;
+        margin: 0 auto;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <div id="line_chart" style="width: 100%; height: 500px"></div>
+    </div>
+</body>
+
 </html>

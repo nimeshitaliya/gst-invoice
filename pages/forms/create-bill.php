@@ -1,31 +1,16 @@
 <?php
-session_start();
-include("../../functions.php");
-if(isset($_SESSION["user_name"])){
-	if(isLoginSessionExpired()){
-		header("Location:../../logout.php?session_expired=1");
-	}
-}
-else{
-	header("Location:../404.php");
-}
-?>
-<?php
 include ("../../DBconfig.php");
-$user_name = $_SESSION["user_name"];
 $sub_total = $_GET['subtotal'];
 $grand_total = $_GET['grandtotal'];
 $round_off = $_GET['roundoff'];
 $invoice_no = $_GET['invoice_no'];
-$place_of_supply = $_GET['place_of_supply'];
 ?>
 <?php
 	require_once '../../dompdf/autoload.inc.php';
 	use Dompdf\Dompdf;
 	$dompdf = new Dompdf();
 	include ("../../DBconfig.php");
-	$user_name = $_SESSION["user_name"];
-	$sql = "SELECT * FROM user_detail WHERE username = '$user_name';";
+	$sql = "SELECT * FROM user_detail WHERE username = 'admin';";
 	$result = mysqli_query($conn, $sql);
 
 	function to_word($number) {
@@ -123,11 +108,11 @@ $place_of_supply = $_GET['place_of_supply'];
 				$html .= $row['company_name'];
 			}
 			$html .= "</h1><p>";
-			$html .=  $row['addr'];
+			$html .=  $row['address'];
 			$html .= "</p><p style='margin-top: 17px;'>MOBILE: ";
-			$html .= $row['phone_no_1'];
+			$html .= $row['phone_no'];
 			$html .= " / ";
-			$html .= $row['phone_no_2'];
+			$html .= $row['phone_no'];
 			$html .= "</p>
 			</header>
 			<div style='margin-top:-25px;'>
@@ -170,31 +155,31 @@ $place_of_supply = $_GET['place_of_supply'];
 									$row_ = mysqli_fetch_assoc($result_);
 									$cust_id = $row_['cust_id'];
 									$date = $row_['date'];
-									$sql_ = "SELECT * FROM customers WHERE username = '$user_name' and cust_id = $cust_id";
+									$sql_ = "SELECT * FROM customers WHERE cust_id = $cust_id";
 									$res = mysqli_query($conn, $sql_);
 									if (mysqli_num_rows($res) > 0){
 										$row_ = mysqli_fetch_assoc($res);
 									}
 								}
 							}else {
-								$sql_ = "SELECT MAX(cust_id) cust_id FROM bill_data WHERE username = '$user_name';";
+								$sql_ = "SELECT MAX(cust_id) cust_id FROM bill_data;";
 							    $result_ = mysqli_query($conn, $sql_);
 							    if (mysqli_num_rows($result_) > 0){
 							       	$row_ = mysqli_fetch_assoc($result_);
 							        $cust_id = $row_['cust_id'];
 									$date = date("d/m/Y");
-									$sql_ = "SELECT * FROM customers WHERE username = '$user_name' and cust_id = $cust_id";
+									$sql_ = "SELECT * FROM customers WHERE cust_id = $cust_id";
 							        $res = mysqli_query($conn, $sql_);
 							        if (mysqli_num_rows($res) > 0){
 							            $row_ = mysqli_fetch_assoc($res);
 									}
 								}
 							}
-							$html .= $row_['customer_name'];
+							$html .= $row_['name'];
 							$html .= "</b>
 								</div>
 								<div style='height: 70px; margin:5px; padding-top:-5px;font-size: 15px;'>";
-						$html .= $row_['addr'];
+						$html .= $row_['address'];
 						$html .= "</div>
 							</div>
 						</div>
@@ -202,7 +187,7 @@ $place_of_supply = $_GET['place_of_supply'];
 							<div style='height: 23px;'>
 								<div style='width: 200px; margin:5px; padding-top:-5px; height: 26px;'>
 									<b>Place of supply:</b><span style='font-size: 15px;'> ";
-							$html .= $place_of_supply;
+							$html .= $row_['place_of_supply'];
 							$html .= " </span>
 								</div>
 								<div style='width: 200px; position:fixed; top:115px; left: 201px; height: 30px;'>
@@ -290,7 +275,7 @@ $place_of_supply = $_GET['place_of_supply'];
 						$i=0;
 							while($row_ = mysqli_fetch_assoc($result_)){
 								$product_id = $row_['product_id'];
-								$_sql = "SELECT product_name, hsn_no FROM products WHERE username = '$user_name' and product_id = $product_id;";
+								$_sql = "SELECT product_name, hsn_no FROM products WHERE product_id = $product_id;";
 								$_result = mysqli_query($conn, $_sql);
 								if (mysqli_num_rows($_result) > 0){
 									$_row = mysqli_fetch_assoc($_result);
@@ -315,25 +300,25 @@ $place_of_supply = $_GET['place_of_supply'];
 						}
 					}
 				}else{
-					$sql_ = "SELECT * FROM bill_data WHERE username = '$user_name';";
+					$sql_ = "SELECT * FROM bill_data;";
 					$result_ = mysqli_query($conn, $sql_);
 					$total_quantity = 0.0;
 					if (mysqli_num_rows($result_) > 0){
 						$i=0;
 							while($row_ = mysqli_fetch_assoc($result_)){
 								$product_id = $row_['product_id'];
-								$_sql = "SELECT product_name, hsn_no FROM products WHERE username = '$user_name' and product_id = $product_id;";
+								$_sql = "SELECT name, hsn_no FROM products WHERE product_id = $product_id;";
 								$_result = mysqli_query($conn, $_sql);
 								if (mysqli_num_rows($_result) > 0){
 									$_row = mysqli_fetch_assoc($_result);
 									$html .= "<div style='width: 60px; top: " . (159 + (23*$i)) . "px; ' id='a0'>";
 									$html .= ($i+1);
 									$html .= "</div><div style='width: 250px; top: " . (184 + (23*$i)) . "px; left: 65px; text-align: left;' id='a0'>";
-									$html .= $_row['product_name'];
+									$html .= $_row['name'];
 									$html .= "</div><div style='width: 65px; top: " . (184 + (23*$i)) . "px; left: 313px;' id='a0'>";
 									$html .= $_row['hsn_no'];
 									$html .= "</div><div style='width: 80px; top: " . (184 + (23*$i)) . "px; left: 379px;' id='a0'>";
-									$html .= $row_['taka_no'];
+									$html .= $row_['hsn_no'];
 									$html .= "</div><div style='width: 80px; top: " . (184 + (23*$i)) . "px; left: 460px;' id='a0'>";
 									$html .= $row_['quantity'];
 									$html .= "</div><div style='width: 70px; top: " . (184 + (23*$i)) . "px; left: 541px;' id='a0'>";

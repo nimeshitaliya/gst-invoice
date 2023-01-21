@@ -150,17 +150,15 @@
             echo 0;
     }
     elseif (isset($_POST['log12'])) {
-        $user_name = $_POST['Message'];
         $id = $_POST['cust_id'];
-        $sql = "UPDATE bill_data SET cust_id = $id WHERE username = '$user_name';";
+        $sql = "UPDATE bill_data SET cust_id = $id;";
         if ($res = mysqli_query($conn, $sql))
             echo 1;
         else
             echo 0;
     }
     elseif (isset($_POST['log13'])) {
-        $user_name = $_POST['Message'];
-        $sql = "SELECT cust_id FROM bill_data WHERE username = '$user_name';";
+        $sql = "SELECT cust_id FROM bill_data;";
         $result = mysqli_query($conn, $sql);
         if (mysqli_num_rows($result) > 0){
             while( $row = mysqli_fetch_assoc($result)){
