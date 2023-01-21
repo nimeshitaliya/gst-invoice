@@ -11,11 +11,9 @@ CREATE TABLE IF NOT EXISTS `billdetail` (
 
 DROP TABLE IF EXISTS `bill_data`;
 CREATE TABLE IF NOT EXISTS `bill_data` (
-  `id` int(10) NOT NULL,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
   `product_id` int(10) NOT NULL,
   `quantity` varchar(10) NOT NULL,
-  `taka_no` int(10) DEFAULT NULL,
-  `username` varchar(30) DEFAULT NULL,
   `rate` varchar(10) NOT NULL,
   `cust_id` int(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -62,15 +60,14 @@ CREATE TABLE IF NOT EXISTS `keys_` (
 
 DROP TABLE IF EXISTS `products`;
 CREATE TABLE IF NOT EXISTS `products` (
-  `product_id` int(10) NOT NULL,
-  `product_name` varchar(30) NOT NULL,
-  `available_quantity` varchar(10) DEFAULT '0',
-  `hsn_no` int(10) DEFAULT NULL,
+  `product_id` int(10) NOT NULL AUTO_INCREMENT,
+  `name` varchar(30) NOT NULL,
+  `hsn_no` varchar(10) DEFAULT NULL,
   `rate` varchar(10) NOT NULL,
-  `dealer_name` varchar(30) NOT NULL,
-  `username` varchar(30) NOT NULL,
-  PRIMARY KEY (`username`,`product_id`)
+  PRIMARY KEY (`product_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+INSERT INTO `products` (`name`, `hsn_no`, `rate`) VALUES
+('R ANMOL', '5602', '250.00');
 
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (

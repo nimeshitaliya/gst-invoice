@@ -71,57 +71,29 @@
             die(mysqli_error($conn));
     }
     elseif (isset($_GET['log5'])) {
-        $user_name = $_REQUEST['Message'];
         $product_name = $_POST['product_name'];
-        $available_quantity = $_POST['available_quantity'];
         $rate = $_POST['rate'];
         $hsn = $_POST['hsn'];
-        $dealer_name = $_POST['dealer_name'];
-        $sql = "SELECT MAX(product_id)+1 product_id FROM products WHERE username = '$user_name';";
-        $result = mysqli_query($conn, $sql);
-        if (mysqli_num_rows($result) > 0){
-            $row = mysqli_fetch_assoc($result);
-            if($hsn!=NULL){
-            $sql = "INSERT INTO products (product_id, product_name, available_quantity, hsn_no, rate, dealer_name, username) VALUES({$row['product_id']},
-                '$product_name', '$available_quantity', $hsn, '$rate', '$dealer_name', '$user_name');";
-            }
-            else{
-                $sql = "INSERT INTO products (product_id, product_name, available_quantity, rate, dealer_name, username) VALUES({$row['product_id']},
-                    '$product_name', '$available_quantity', '$rate', '$dealer_name', '$user_name');";
-            }
-            if ($res = mysqli_query($conn, $sql))
-                header("Location:pages/forms/product-forms.php");
-            else
-                die(mysqli_error($conn));
-        }
+        $sql = "INSERT INTO products (name, hsn_no, rate) VALUES('$product_name', '$hsn', '$rate');";
+        if ($res = mysqli_query($conn, $sql))
+            header("Location:pages/forms/product-forms.php");
         else
            die(mysqli_error($conn));
     }
     elseif (isset($_GET['log6'])) {
-        $user_name = $_REQUEST['Message'];
         $product_id = $_REQUEST['product_id'];
         $product_name = $_POST['product_name'];
         $rate = $_POST['rate'];
         $hsn = $_POST['hsn'];
-        $available_quantity = $_POST['available_quantity'];
-        $dealer_name = $_POST['dealer_name'];
-        if($hsn!=NULL){
-            $sql = "UPDATE products SET product_name = '$product_name', available_quantity = '$available_quantity', hsn_no = $hsn, dealer_name = '$dealer_name' , rate = '$rate'
-            WHERE product_id = $product_id AND username = '$user_name';";
-        }
-        else{
-            $sql = "UPDATE products SET product_name = '$product_name', available_quantity = '$available_quantity', dealer_name = '$dealer_name' , rate = '$rate'
-                WHERE product_id = $product_id AND username = '$user_name';";
-        }
+        $sql = "UPDATE products SET name = '$product_name', hsn_no = '$hsn', rate = '$rate' WHERE product_id = $product_id;";
         if ($res = mysqli_query($conn, $sql))
             header("Location:pages/forms/product-forms.php");
         else
             die(mysqli_error($conn));
     }
     elseif (isset($_GET['log7'])) {
-        $user_name = $_REQUEST['Message'];
         $product_id = $_REQUEST['product_id'];
-        $sql = "DELETE FROM products WHERE product_id = $product_id AND username = '$user_name';";
+        $sql = "DELETE FROM products WHERE product_id = $product_id;";
         if ($res = mysqli_query($conn, $sql))
             header("Location:pages/forms/product-forms.php");
         else
@@ -140,29 +112,13 @@
         }
     }
     elseif (isset($_POST['log9'])) {
-        $user_name = $_POST['Message'];
         $product_id = $_POST['product_id'];
         $quantity = $_POST['quantity'];
         $rate = $_POST['rate'];
-        $taka_no = $_POST['taka_no'];
-        $sql = "SELECT MAX(id)+1 id FROM bill_data WHERE username = '$user_name'; ";
-        $result = mysqli_query($conn, $sql);
-        if (mysqli_num_rows($result) > 0) {
-            $row = mysqli_fetch_assoc($result);
-            if($row['id']==NULL)
-                $id = 1;
-            else {
-                $id = $row['id'];
-            }
-        }
-        if($taka_no){
-            $sql = "INSERT INTO bill_data (id, product_id, quantity, taka_no, username, rate) VALUES($id, $product_id, '$quantity', $taka_no, '$user_name', '$rate'); ";
-        }else {
-            $sql = "INSERT INTO bill_data (id, product_id, quantity, username, rate) VALUES($id, $product_id, '$quantity', '$user_name', '$rate'); ";
-        }
+        $sql = "INSERT INTO bill_data (product_id, quantity, rate) VALUES($product_id, '$quantity', '$rate'); ";
         $result = mysqli_query($conn, $sql);
         if ($result) {
-            $sql = "SELECT COUNT(id) count FROM bill_data WHERE username = '$user_name';";
+            $sql = "SELECT COUNT(id) count FROM bill_data;";
             $result = mysqli_query($conn, $sql);
             if (mysqli_num_rows($result) > 0) {
                 $row = mysqli_fetch_assoc($result);
@@ -175,25 +131,19 @@
         }
     }
     elseif (isset($_POST['log10'])) {
-        $user_name = $_POST['Message'];
         $id = $_POST['id'];
         $rate = $_POST['rate'];
-        $taka_no = $_POST['taka_no'];
-        if($taka_no!=NULL){
-            $sql = "UPDATE bill_data SET rate = '$rate', taka_no = $taka_no WHERE id = $id AND username = '$user_name';";
-        }
-        else {
-            $sql = "UPDATE bill_data SET rate = '$rate' WHERE id = $id AND username = '$user_name';";
-        }
+        $quantity = $_POST['quantity'];
+        $sql = "UPDATE bill_data SET rate = '$rate', quantity = '$quantity' WHERE id = $id;";
+        echo $sql;
         if ($res = mysqli_query($conn, $sql))
             echo 1;
         else
             echo 0;
     }
     elseif (isset($_POST['log11'])) {
-        $user_name = $_POST['Message'];
         $id = $_POST['id'];
-        $sql = "DELETE FROM bill_data WHERE id = $id AND username = '$user_name';";
+        $sql = "DELETE FROM bill_data WHERE id = $id;";
         if ($res = mysqli_query($conn, $sql))
             echo 1;
         else
@@ -312,8 +262,7 @@
         }
     }
     elseif (isset($_POST['log15'])) {
-        $user_name = $_POST['Message'];
-        $sql = "SELECT id FROM bill_data WHERE username = '$user_name';";
+        $sql = "SELECT id FROM bill_data;";
         $result = mysqli_query($conn, $sql);
         if (mysqli_num_rows($result) > 0){
             while( $row = mysqli_fetch_assoc($result)){
@@ -396,20 +345,18 @@
         }
     }
     elseif (isset($_POST['log19'])) {
-        $user_name = $_POST['Message'];
-        $sql = "SELECT * FROM bill_data where username = '$user_name';";
+        $sql = "SELECT * FROM bill_data;";
         $result = mysqli_query($conn, $sql);
         if (mysqli_num_rows($result) > 0){
             while($row = mysqli_fetch_assoc($result)){
-                $sql = "SELECT product_name FROM products WHERE username = '$user_name' AND product_id = $row[product_id];";
+                $sql = "SELECT name FROM products WHERE product_id = $row[product_id];";
                 $result_ = mysqli_query($conn, $sql);
                 $row_ = mysqli_fetch_assoc($result_);
                 $data[] = array(
                 	"id"=>$row['id'],
                 	"product_id"=>$row['product_id'],
-                    "product_name"=>$row_['product_name'],
+                    "product_name"=>$row_['name'],
                     "quantity"=>$row['quantity'],
-                    "taka_no"=>$row['taka_no'],
                 	"rate"=>$row['rate'],
                     'data'=>"<div class='mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3'><div class='mdc-layout-grid__cell mdc-layout-grid__cell--span-1-desktop'><div onclick='edit_onclick(this);' style='padding: 0px 24px 0px 24px' class='mdc-toolbar__icon toggle mdc-ripple-surface' data-mdc-auto-init='MDCRipple'><i class='material-icons' style='color:#00a9f4'>edit</i></div></div><div class='mdc-layout-grid__cell mdc-layout-grid__cell--span-1-desktop'><div class='mdc-toolbar__icon toggle mdc-ripple-surface' data-mdc-auto-init='MDCRipple' onclick='save_onclick(this);' style='padding: 0px 24px 0px 24px'><i class='material-icons' style='color:#00a9f4'>save</i></div></div><div class='mdc-layout-grid__cell mdc-layout-grid__cell--span-1-desktop'><div class='mdc-toolbar__icon toggle mdc-ripple-surface' onclick='delete_onclick(this);' style='padding: 0px 24px 0px 24px' data-mdc-auto-init='MDCRipple'><i class='material-icons' style='color:#00a9f4'>delete</i></div></div></div>"
                 );
@@ -417,16 +364,13 @@
             file_put_contents("json/json_file.json", "{\"data\":" . json_encode($data) . "}");
         }
         else{
-            echo '0';
             file_put_contents("json/json_file.json", "{\"data\":[]}");
         }
-        $sql = "SELECT COUNT(id) count FROM bill_data WHERE username = '$user_name';";
+        $sql = "SELECT COUNT(id) count FROM bill_data;";
         $result = mysqli_query($conn, $sql);
         if (mysqli_num_rows($result) > 0) {
             $row = mysqli_fetch_assoc($result);
             echo $row["count"];
-        }else {
-            echo '0';
         }
     }
     elseif (isset($_POST['log20'])) {

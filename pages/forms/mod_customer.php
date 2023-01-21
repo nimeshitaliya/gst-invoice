@@ -96,8 +96,7 @@
                             <span class="dropdown-count" id="span_quantity">
                                 <?php
   		                include ("../../DBconfig.php");
-  		                $user_name = "admin";
-  		                $sql_ = "SELECT COUNT(id) count FROM bill_data WHERE username = '$user_name';";
+  		                $sql_ = "SELECT COUNT(id) count FROM bill_data;";
   		                $result_ = mysqli_query($conn, $sql_);
   		                if (mysqli_num_rows($result_) > 0) {
   		                    $row_ = mysqli_fetch_assoc($result_);
