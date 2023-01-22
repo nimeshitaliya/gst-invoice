@@ -260,14 +260,11 @@
         }
     }
     elseif (isset($_POST['log15'])) {
-        $sql = "SELECT id FROM bill_data;";
+        $sql = "SELECT count(*) as count FROM bill_data;";
         $result = mysqli_query($conn, $sql);
         if (mysqli_num_rows($result) > 0){
-            while( $row = mysqli_fetch_assoc($result)){
-                if($row["id"]==""){
-                    echo 0;
-                }
-            }
+            $row = mysqli_fetch_assoc($result);
+            echo $row["count"];
         }
         else {
             echo 0;
@@ -359,17 +356,17 @@
                     'data'=>"<div class='mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3'><div class='mdc-layout-grid__cell mdc-layout-grid__cell--span-1-desktop'><div onclick='edit_onclick(this);' style='padding: 0px 24px 0px 24px' class='mdc-toolbar__icon toggle mdc-ripple-surface' data-mdc-auto-init='MDCRipple'><i class='material-icons' style='color:#00a9f4'>edit</i></div></div><div class='mdc-layout-grid__cell mdc-layout-grid__cell--span-1-desktop'><div class='mdc-toolbar__icon toggle mdc-ripple-surface' data-mdc-auto-init='MDCRipple' onclick='save_onclick(this);' style='padding: 0px 24px 0px 24px'><i class='material-icons' style='color:#00a9f4'>save</i></div></div><div class='mdc-layout-grid__cell mdc-layout-grid__cell--span-1-desktop'><div class='mdc-toolbar__icon toggle mdc-ripple-surface' onclick='delete_onclick(this);' style='padding: 0px 24px 0px 24px' data-mdc-auto-init='MDCRipple'><i class='material-icons' style='color:#00a9f4'>delete</i></div></div></div>"
                 );
             }
-            file_put_contents("json/json_file.json", "{\"data\":" . json_encode($data) . "}");
+            echo json_encode($data);
         }
         else{
-            file_put_contents("json/json_file.json", "{\"data\":[]}");
+            echo json_encode(array("error"=>"error"));
         }
-        $sql = "SELECT COUNT(id) count FROM bill_data;";
-        $result = mysqli_query($conn, $sql);
-        if (mysqli_num_rows($result) > 0) {
-            $row = mysqli_fetch_assoc($result);
-            echo $row["count"];
-        }
+        // $sql = "SELECT COUNT(id) count FROM bill_data;";
+        // $result = mysqli_query($conn, $sql);
+        // if (mysqli_num_rows($result) > 0) {
+        //     $row = mysqli_fetch_assoc($result);
+        //     echo $row["count"];
+        // }
     }
     elseif (isset($_POST['log20'])) {
         $user_name = $_POST['Message'];

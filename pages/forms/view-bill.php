@@ -70,12 +70,42 @@
                 <div class="mdc-layout-grid__inner">
                     <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
                         <div class="mdc-card">
-                            <section class="mdc-card__primary">
-                                <h1 class="mdc-card__title mdc-card__title--large">Invoice No. <span
-                                        id="invoice_no"></span></h1>
+                            <section class="mdc-card__supporting-text">
+                                <div class="mdc-layout-grid__inner">
+                                    <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-2-desktop">
+                                        <div class="template-demo">
+                                            <div id="demo-tf-box-wrapper">
+                                            <h1 class="mdc-card__title mdc-card__title--large">Invoice No.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-2-desktop">
+                                        <div class="template-demo">
+                                            <div id="demo-tf-box-wrapper">
+                                            <input type='text' class='form-control' id='invoice_no' style='width:60px' name='invoice_no'>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-2-desktop">
+                                        <div class="template-demo">
+                                            <div id="demo-tf-box-wrapper">
+                                            <h1 class="mdc-card__title mdc-card__title--large">Date.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-4-desktop">
+                                        <div class="template-demo">
+                                            <div id="demo-tf-box-wrapper">
+                                            <input type="date" id="invoice_date" name="invoice_date" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
                             </section>
                         </div>
                     </div>
+
                     <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
                         <div class="mdc-card">
                             <section class="mdc-card__primary">
@@ -378,7 +408,7 @@
                                                 <div class="mdc-list-item mdc-drawer-item purchase-link">
                                                     <a id="anchor_id" href="../../dashboard.php">
                                                         <input type="button" id="next_button" style="width: 100px;"
-                                                            value="save" onclick="save();"
+                                                            value="save"
                                                             class="mdc-button mdc-button--raised mdc-button--dense mdc-drawer-link"
                                                             data-mdc-auto-init="MDCRipple">
                                                     </a>
@@ -392,7 +422,7 @@
                                                 <div class="mdc-list-item mdc-drawer-item purchase-link">
                                                     <a id="view_id" target="_blank">
                                                         <input type="button" id="next_button" style="width: 100px;"
-                                                            value="view"
+                                                            value="view" onclick="view_invoice();"
                                                             class="mdc-button mdc-button--raised mdc-button--dense mdc-drawer-link"
                                                             data-mdc-auto-init="MDCRipple">
                                                     </a>
@@ -528,12 +558,24 @@
             }
             mysqli_close($conn);
         ?>
-        invoice_no.innerHTML = "<?php echo $invoice_no;?> ";
-        document.getElementById('view_id').setAttribute("href",
-            "create-pdf_.php?subtotal=<?php echo $sub_total;?>&grandtotal=<?php echo $grand_total;?>&roundoff=<?php echo $round_off;?>&invoice_no=<?php echo $invoice_no;?>"
-        );
+        invoice_no.value = "<?php echo $invoice_no;?>";
+        var invoice_date = document.getElementById('invoice_date');
+        let date = new Date()
+        invoice_date.value = date.toISOString().split('T')[0]
     }
 
+    function view_invoice(){
+        var invoice_no = document.getElementById('invoice_no');
+        var invoice_date = document.getElementById('invoice_date');
+        invoice_date = invoice_date.value.split("-")
+        invoice_date = invoice_date[2] + "/" + invoice_date[1] + "/" + invoice_date[0]
+        invoice_no = invoice_no.value
+        subtotal = '<?php echo $sub_total;?>'
+        grandtotal = '<?php echo $grand_total;?>'
+        roundoff = '<?php echo $round_off;?>'
+
+        window.open(`create-pdf.php?subtotal=${subtotal}&grandtotal=${grandtotal}&roundoff=${roundoff}&invoice_no=${invoice_no}&invoice_date=${invoice_date}`, "_blank")
+    }
     function save() {
         $.ajax({
             type: "POST",

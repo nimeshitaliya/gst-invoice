@@ -203,8 +203,6 @@
         var quantity = trObj.children[2].children[0];
         var rate = trObj.children[3].children[0];
         var numx = /^[0-9.]+$/;
-        console.log(quantity)
-        console.log(rate)
         var flag = false;
         if (quantity.value != "" && quantity.value != "0") {
             if (numx.test(quantity.value) == false) {
@@ -238,11 +236,7 @@
                                     show: true
                                 });
                             } else {
-                                console.log(html)
                                 document.getElementById('span_quantity').innerHTML = html;
-                                available_quantity.innerHTML = parseFloat(available_quantity
-                                        .innerHTML) -
-                                    parseFloat(quantity.value);
                             }
                         }
                     });

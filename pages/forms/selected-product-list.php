@@ -186,25 +186,7 @@
                 }
             }
         });
-        $.ajax({
-            type: "POST",
-            url: '../../DBOperation.php',
-            data: {
-                log19: 1
-            },
-            success: function(html) {
-                if (html == '0') {
-                    $('#example').dataTable().fnClearTable();
-                    document.getElementById('span_quantity').innerHTML = 0;
-                } else if (html == '00') {
-                    $('#example').dataTable().fnClearTable();
-                    document.getElementById('span_quantity').innerHTML = 0;
-                } else {
-                    document.getElementById('span_quantity').innerHTML = html;
-                    $('#example').DataTable().ajax.url('../../json/json_file.json').load();
-                }
-            }
-        });
+        change_event();
     }
 
     function save_onclick(obj) {
@@ -292,6 +274,39 @@
     </script>
     <script>
     function onload_fun() {
+        change_event();
+    }
+
+    function change_event(){
+        $.ajax({
+            type: "POST",
+            url: '../../DBOperation.php',
+            dataType: 'JSON',
+            data: {
+                log19: 1
+            },
+            success: function(html) {
+				$('#example').dataTable().fnClearTable();
+                if(html["error"]=="error"){
+					$('#example').dataTable().fnClearTable();
+				}
+				else {
+					$("#example").dataTable().fnDestroy();
+                    var table = $('#example').DataTable({
+						processing: true,
+						data: html,
+						"columns"     :     [
+							{     "data"     :     "id"           },
+							{     "data"     :     "product_id"   },
+							{     "data"     :     "product_name" },
+							{     "data"     :     "quantity"     },
+							{     "data"     :     "rate"         },
+							{     "data"     :     "data"         }
+						]
+					});
+                }
+            }
+        });
         $.ajax({
             type: "POST",
             url: '../../DBOperation.php',
@@ -299,63 +314,18 @@
                 log15: 1
             },
             success: function(html) {
-                if (html == "") {
+                if (html == "0") {
+                    $('#next_button').attr("disabled", true);
+                    document.getElementById('span_quantity').innerHTML = html;
+                }
+                else {
                     $('#next_button').attr("disabled", false);
                     $('#anchor_id').attr("href", "cust-list.php");
-                }
-            }
-        });
-        $.ajax({
-            type: "POST",
-            url: '../../DBOperation.php',
-            data: {
-                log19: 1
-            },
-            success: function(html) {
-                if (html == '0') {
-                    $('#example').dataTable().fnClearTable();
-                    document.getElementById('span_quantity').innerHTML = 0;
-                } else if (html == '00') {
-                    $('#example').dataTable().fnClearTable();
-                    document.getElementById('span_quantity').innerHTML = 0;
-                } else {
                     document.getElementById('span_quantity').innerHTML = html;
-                    $('#example').DataTable().ajax.url('../../json/json_file.json').load();
                 }
             }
         });
     }
-    </script>
-    <script>
-    $(document).ready(function() {
-        $('#example').DataTable({
-            processing: true,
-            "columns": [{
-                    "data": "id"
-                },
-                {
-                    "data": "product_id"
-                },
-                {
-                    "data": "product_name"
-                },
-                {
-                    "data": "quantity"
-                },
-                {
-                    "data": "rate"
-                },
-                {
-                    "data": "data"
-                }
-            ]
-        });
-        $('tr').hover(function() {
-            $(this).css("background-color", "#EEEEEE");;
-        }, function() {
-            $(this).css("background-color", "white");;
-        });
-    });
     </script>
     <script src="../../node_modules/material-components-web/dist/material-components-web.min.js"></script>
     <script src="../../js/misc.js"></script>
